@@ -30,4 +30,4 @@ Transaction `amount` values are stored as **strings** (both in seed data and whe
 
 ## Lint rule worth knowing
 
-`no-unused-vars` ignores identifiers matching `^[A-Z_]` — uppercase-prefixed or underscore-prefixed names won't trigger the rule.
+`no-unused-vars` is configured with `varsIgnorePattern: '^[A-Z_]'` — unused **variables** whose names are uppercase- or underscore-prefixed won't trigger the rule (function arguments are not exempted).
