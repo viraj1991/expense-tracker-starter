@@ -24,11 +24,11 @@ function App() {
 
   const totalIncome = transactions
     .filter(t => t.type === "income")
-    .reduce((sum, t) => sum + t.amount, 0);
+    .reduce((sum, t) => sum + Number(t.amount), 0);
 
   const totalExpenses = transactions
     .filter(t => t.type === "expense")
-    .reduce((sum, t) => sum + t.amount, 0);
+    .reduce((sum, t) => sum + Number(t.amount), 0);
 
   const balance = totalIncome - totalExpenses;
 
@@ -39,6 +39,12 @@ function App() {
   if (filterCategory !== "all") {
     filteredTransactions = filteredTransactions.filter(t => t.category === filterCategory);
   }
+
+  const handleDelete = (id) => {
+    const transaction = transactions.find(t => t.id === id);
+    if (!window.confirm(`Delete "${transaction.description}"?`)) return;
+    setTransactions(transactions.filter(t => t.id !== id));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -132,7 +138,7 @@ function App() {
               <th>Description</th>
               <th>Category</th>
               <th>Amount</th>
-
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -144,7 +150,9 @@ function App() {
                 <td className={t.type === "income" ? "income-amount" : "expense-amount"}>
                   {t.type === "income" ? "+" : "-"}${t.amount}
                 </td>
-
+                <td>
+                  <button className="delete-btn" onClick={() => handleDelete(t.id)}>Delete</button>
+                </td>
               </tr>
             ))}
           </tbody>
